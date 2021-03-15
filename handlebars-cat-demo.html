@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <!-- Include Handlebars from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <!-- Include your CSS style sheet here as a link or add your <style> tags here-->
+    <link rel="stylesheet" href="cat.css">
+</head>
+
+<body>
+    <!-- Start your HTML email template here -->
+    <span>
+        <p>Dear Recipient,</p>
+        <p>Here is some important information for you.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Cat Name</th>
+                    <th>Cat Age</th>
+                    <th>Cat Information</th>
+                </tr>
+            </thead>
+
+            <!-- <tbody> has a unique ID so that we tell javascript to add the table here -->
+            <tbody id="cat-detail-list">
+            </tbody>
+        </table>
+        <p>Please find attached a copy of the Cat Care User Guide.</p>
+        <p>Kind regards,</p>
+        <p>Angelo Edades<br />Cat Whisperer</p>
+    </span>
+
+    <!-- This is where we define the Handlebars template. It has a unique ID so that we can refer to it -->
+    <template id="cat-detail-row-template">
+
+        <!-- Using the Handlebars each helper -->
+        {{#each cat}}
+        <tr class="important">
+            <td>{{Name}}</td>
+            <td>{{Age}}</td>
+            <td>{{Information}}</td>
+        </tr>
+        <!-- Closing the Handlebars each helper -->
+        {{/each}}
+    </template>
+
+    <!-- This is where we start bringing everything together. It has to be at the bottom or towards the bottom of the HTML file -->
+    <script>
+
+        // This is the Handlebars data source
+        var datasource_cats = [
+            {
+                "Name": "Neko",
+                "Age": "1",
+                "Information": "Black cat. Very lazy. Likes to sleep and eat a lot.",
+            },
+            {
+                "Name": "Margot",
+                "Age": "4",
+                "Information": "Very big cat. Pink nose. Very lazy. Likes Chicken.",
+            },
+            {
+                "Name": "Babs",
+                "Age": "4",
+                "Information": "Slim cat. Black nose. Very nosey and likes Dreamies.",
+            }
+        ];
+
+        // Grab the Handlebars template inner HTML using the unique id
+        var template = document.getElementById('cat-detail-row-template').innerHTML;
+
+        // Tell Handlebars to compile the template
+        var renderCatDetailRow = Handlebars.compile(template);
+
+        // Tell Handlebars to render the data and put it in a HTML tag with the unique Id below. Make sure to match the variable names in the template. In this case it is "cat"
+        document.getElementById('cat-detail-list').innerHTML = renderCatDetailRow({
+            cat: datasource_cats,
+        });
+    </script>
+</body>
+
+</html>
